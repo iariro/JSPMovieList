@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<project>
+
+	<!-- MovieList build.xml -->
+
+	<property file="../../../../../build.properties" />
+
+	<property name="GOTAKU_LIB" value="../../../JSP/5Taku/project/bin/" />
+
+	<target name="zip">
+		<zip
+			destfile="${PDA_HOME}/Temp/MovieList.zip"
+			basedir=".."
+			includes="project/**"
+			excludes="project/bin/**" />
+	</target>
+
+	<target name="codeguess">
+		<taskdef name="codeguess" classname="kumagai.codeguess.CodeGuessTask" classpath="${JAVAPROJECTCHECKER_LIB}" />
+		<codeguess targetfilepath="src/">
+			<exclude extension="java" code="UTF-8" />
+		</codeguess>
+	</target>
+
+	<target name="javadoc">
+		<javadoc
+			destdir="../javadoc"
+			sourcepath="src"
+			encoding="utf-8"
+			classpath="${ANT_LIB};${KTOOL_LIB};${JUNIT_LIB};${GOTAKU_LIB}">
+		</javadoc>
+	</target>
+
+</project>
