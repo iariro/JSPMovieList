@@ -19,13 +19,22 @@ public class QueuedListMain
 		{
 			// 引数は指定されている。
 
-			BufferedReader reader =
-				new BufferedReader(
-					new InputStreamReader(
-						new FileInputStream(args[0]), "sjis"));
+			QueuedList queuedList;
+			try
+			{
+				BufferedReader reader =
+					new BufferedReader(
+						new InputStreamReader(
+							new FileInputStream(args[0]), "sjis"));
 
-			QueuedList queuedList = new QueuedList(reader);
-			reader.close();
+				queuedList = new QueuedList(reader);
+				reader.close();
+			}
+			catch (FileNotFoundException exception)
+			{
+				System.out.println(exception.toString());
+				return;
+			}
 
 			/*
 			for (Map.Entry<String, ArrayList<String>> entry
