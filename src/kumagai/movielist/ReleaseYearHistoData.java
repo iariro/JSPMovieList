@@ -1,7 +1,10 @@
 package kumagai.movielist;
 
-import java.io.*;
-import java.text.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.ParseException;
 
 /**
  * 映画リストから構築可能な年別ヒストグラムデータ。
@@ -65,12 +68,12 @@ public class ReleaseYearHistoData
 		}
 	}
 
-	private int [] yearHisto;
+	public int [] yearHisto;
 	private int count;
-	private final int startYear;
-	private final int endYear;
-	private final int step;
-	private final int year;
+	public final int startYear;
+	public final int endYear;
+	public final int step;
+	public final int year;
 
 	/**
 	 * データ構築。

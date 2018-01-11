@@ -1,9 +1,11 @@
 package kumagai.movielist;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import ktool.datetime.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+
+import ktool.datetime.DateTime;
 
 /**
  * 映画情報レコードコレクション。
@@ -15,11 +17,9 @@ public class RecordCollectionCollection
 	/**
 	 * ファイル内容からレコードコレクションを構築する。
 	 * @param reader ファイル読取オブジェクト
-	 * @throws IOException
-	 * @throws ParseException
 	 */
 	public RecordCollectionCollection(BufferedReader reader)
-		throws Exception
+		throws IOException, MovieListException, ParseException
 	{
 		boolean border = false;
 		DateTime year = new DateTime();

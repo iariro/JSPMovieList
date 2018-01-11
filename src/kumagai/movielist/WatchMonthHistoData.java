@@ -1,9 +1,14 @@
 package kumagai.movielist;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import ktool.datetime.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.util.ArrayList;
+
+import ktool.datetime.DateTime;
+import ktool.datetime.TimeSpan;
 
 /**
  * 映画リストから構築可能な鑑賞時期ヒストグラムデータ。
@@ -58,9 +63,9 @@ public class WatchMonthHistoData
 		}
 	}
 
-	private final int year;
-	private final DateTime endDate;
-	private int count;
+	public final int year;
+	public final DateTime endDate;
+	public int count;
 
 	/**
 	 * データ構築。
