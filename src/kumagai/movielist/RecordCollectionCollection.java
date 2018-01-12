@@ -1,7 +1,9 @@
 package kumagai.movielist;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -14,6 +16,20 @@ import ktool.datetime.DateTime;
 public class RecordCollectionCollection
 	extends ArrayList<RecordCollection>
 {
+	public static void main(String[] args) throws IOException, ParseException, MovieListException
+	{
+		if (args.length < 1)
+		{
+			// 引数は指定されている。
+			return;
+		}
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(args[0]), "sjis"));
+		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
+		reader.close();
+		System.out.println(recordsCollection.generateTitleCountPoints());
+	}
+
 	/**
 	 * ファイル内容からレコードコレクションを構築する。
 	 * @param reader ファイル読取オブジェクト
@@ -76,5 +92,70 @@ public class RecordCollectionCollection
 			}
 			count++;
 		}
+	}
+
+	/**
+	 * 総視聴件数折れ線グラフ用座標を生成
+	 * @return 総視聴件数折れ線グラフ用座標
+	 */
+	public String generateTitleCountPoints()
+	{
+		StringBuffer buffer = new StringBuffer();
+		int count = 0;
+		int totalCount = 0;
+		DateTime pdate = null;
+		for (int i=size()-1 ; i>=0 ; i--)
+		{
+			if (i < size()-1)
+			{
+				buffer.append(",");
+			}
+			buffer.append(String.format("{name: '%s年',data: [", get(i).year));
+
+			int outCount = 0;
+			for (int j=get(i).size()-1 ; j>=0 ; j--)
+			{
+				if (pdate != null)
+				{
+					// ２個目以降
+
+					if (get(i).get(j).watchDate.compareTo(pdate) == 0)
+					{
+						// 同じ日
+
+						count++;
+					}
+					else
+					{
+						// 違う日
+
+						if (outCount > 0)
+						{
+							buffer.append(",");
+						}
+						totalCount += count;
+						buffer.append(String.format("[%d,%d]\n", pdate.getCalendar().getTimeInMillis(), totalCount));
+						outCount++;
+						count = 1;
+					}
+				}
+				else
+				{
+					count = 1;
+				}
+				pdate = get(i).get(j).watchDate;
+			}
+			if (pdate != null && count > 0)
+			{
+				if (outCount > 0)
+				{
+					buffer.append(",");
+				}
+				totalCount += count;
+				buffer.append(String.format("[%d,%d]\n", pdate.getCalendar().getTimeInMillis(), totalCount));
+			}
+			buffer.append("]}\n");
+		}
+		return buffer.toString();
 	}
 }
