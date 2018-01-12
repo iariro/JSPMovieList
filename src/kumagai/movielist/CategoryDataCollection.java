@@ -8,9 +8,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.function.Function;
 
-public class ChromeTypeDataCollection
-	extends ArrayList<ChromeTypeData>
+/**
+ * 映画リストから構築可能なカテゴリー集計データのコレクション
+ */
+public class CategoryDataCollection
+	extends ArrayList<CategoryData>
 {
 	public static void main(String[] args) throws IOException, ParseException, MovieListException
 	{
@@ -24,13 +29,13 @@ public class ChromeTypeDataCollection
 		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
 		reader.close();
 
-		ChromeTypeDataCollection histoDataCollection = new ChromeTypeDataCollection();
+		CategoryDataCollection histoDataCollection = new CategoryDataCollection();
 		for (int i=0 ; i<recordsCollection.size() ; i++)
 		{
-			histoDataCollection.add(new ChromeTypeData(recordsCollection.get(i)));
+			histoDataCollection.add(new CategoryData(recordsCollection.get(i)));
 		}
 
-		PrintWriter writer = new PrintWriter(new File("ChromeTypeHisto.html"));
+		PrintWriter writer = new PrintWriter(new File("CategoryDataHisto.html"));
 		writer.println("<html>");
 		writer.println("<head>");
 		writer.println("<meta charset='UTF-8' />");
@@ -42,7 +47,7 @@ public class ChromeTypeDataCollection
 		writer.println("<script language='JavaScript'>");
 		writer.println("$(document).ready(function() {");
 		writer.println("var chart = {type: 'column'};");
-		writer.println("var title = {text: 'Chrome Type Histo'};");
+		writer.println("var title = {text: 'Category Data Histo'};");
 		writer.println("var xAxis = {categories: [");
 		writer.println(histoDataCollection.generateXLabel());
 		writer.println("],title: {text: null}};");
@@ -68,6 +73,7 @@ public class ChromeTypeDataCollection
 		writer.println("</body>");
 		writer.println("</html>");
 		writer.close();
+		System.out.println("done");
 	}
 
 	/**
@@ -94,25 +100,29 @@ public class ChromeTypeDataCollection
 	 */
 	public String generateHighchartsPoints()
 	{
-		String [] keys = new String []{"カラー", "モノクロ"};
+		TreeMap<String, Function<CategoryData, Integer>> keys = new TreeMap<String, Function<CategoryData, Integer>>();
+		keys.put("洋画", (data)->{return data.yougaCount;});
+		keys.put("邦画", (data)->{return data.hougaCount;});
 		StringBuffer buffer = new StringBuffer();
-		for (int i=0 ;i<keys.length ; i++)
+		int count = 0;
+		for (String key : keys.keySet())
 		{
-			if (i > 0)
+			if (count > 0)
 			{
 				buffer.append(",");
 			}
-			buffer.append(String.format("{name:'%s', data:[", keys[i]));
+			buffer.append(String.format("{name:'%s', data:[", key));
 			for (int j=0 ; j<size() ; j++)
 			{
 				if (j > 0)
 				{
 					buffer.append(",");
 				}
-				ChromeTypeData data = get(size() - j - 1);
-				buffer.append(data.get(keys[i].subSequence(0, 1)));
+				buffer.append(keys.get(key).apply(get(size() - j - 1)));
 			}
 			buffer.append("]}");
+
+			count++;
 		}
 		return buffer.toString();
 	}

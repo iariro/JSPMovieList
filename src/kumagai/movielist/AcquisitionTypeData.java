@@ -1,8 +1,11 @@
 package kumagai.movielist;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.util.HashMap;
 
 /**
  * 映画リストから構築可能な入手方法集計データ。
@@ -57,8 +60,8 @@ public class AcquisitionTypeData
 		}
 	}
 
-	private final int year;
-	private int count;
+	public final int year;
+	public int count;
 
 	/**
 	 * データ構築。

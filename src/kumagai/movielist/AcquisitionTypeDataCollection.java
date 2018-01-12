@@ -8,9 +8,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
-public class ChromeTypeDataCollection
-	extends ArrayList<ChromeTypeData>
+/**
+ * 映画リストから構築可能な入手方法集計データのコレクション
+ */
+public class AcquisitionTypeDataCollection
+	extends ArrayList<AcquisitionTypeData>
 {
 	public static void main(String[] args) throws IOException, ParseException, MovieListException
 	{
@@ -24,13 +28,13 @@ public class ChromeTypeDataCollection
 		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
 		reader.close();
 
-		ChromeTypeDataCollection histoDataCollection = new ChromeTypeDataCollection();
+		AcquisitionTypeDataCollection histoDataCollection = new AcquisitionTypeDataCollection();
 		for (int i=0 ; i<recordsCollection.size() ; i++)
 		{
-			histoDataCollection.add(new ChromeTypeData(recordsCollection.get(i)));
+			histoDataCollection.add(new AcquisitionTypeData(recordsCollection.get(i)));
 		}
 
-		PrintWriter writer = new PrintWriter(new File("ChromeTypeHisto.html"));
+		PrintWriter writer = new PrintWriter(new File("AcquisitionTypeHisto.html"));
 		writer.println("<html>");
 		writer.println("<head>");
 		writer.println("<meta charset='UTF-8' />");
@@ -42,7 +46,7 @@ public class ChromeTypeDataCollection
 		writer.println("<script language='JavaScript'>");
 		writer.println("$(document).ready(function() {");
 		writer.println("var chart = {type: 'column'};");
-		writer.println("var title = {text: 'Chrome Type Histo'};");
+		writer.println("var title = {text: 'Acquisition Type Histo'};");
 		writer.println("var xAxis = {categories: [");
 		writer.println(histoDataCollection.generateXLabel());
 		writer.println("],title: {text: null}};");
@@ -94,25 +98,36 @@ public class ChromeTypeDataCollection
 	 */
 	public String generateHighchartsPoints()
 	{
-		String [] keys = new String []{"カラー", "モノクロ"};
+		LinkedHashMap<String, String> keys = new LinkedHashMap<String, String>();
+		keys.put("DR", "DVDレンタル");
+		keys.put("DP", "DVD購入");
+		keys.put("DA", "DVDオークション");
+		keys.put("NR", "ネットレンタル");
+		keys.put("TV", "TV視聴");
+		keys.put("VA", "VHSオークション");
+		keys.put("LP", "LD購入");
+		keys.put("DB", "ひとのDVD");
+
 		StringBuffer buffer = new StringBuffer();
-		for (int i=0 ;i<keys.length ; i++)
+		int count = 0;
+		for (String key : keys.keySet())
 		{
-			if (i > 0)
+			if (count > 0)
 			{
 				buffer.append(",");
 			}
-			buffer.append(String.format("{name:'%s', data:[", keys[i]));
+			buffer.append(String.format("{name:'%s', data:[", keys.get(key)));
 			for (int j=0 ; j<size() ; j++)
 			{
 				if (j > 0)
 				{
 					buffer.append(",");
 				}
-				ChromeTypeData data = get(size() - j - 1);
-				buffer.append(data.get(keys[i].subSequence(0, 1)));
+				AcquisitionTypeData data = get(size() - j - 1);
+				buffer.append(data.get(key));
 			}
 			buffer.append("]}");
+			count++;
 		}
 		return buffer.toString();
 	}

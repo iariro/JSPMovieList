@@ -1,7 +1,10 @@
 package kumagai.movielist;
 
-import java.io.*;
-import java.text.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.ParseException;
 
 /**
  * 映画リストから構築可能なカテゴリー集計データ。
@@ -55,10 +58,10 @@ public class CategoryData
 		}
 	}
 
-	private final int year;
-	private int yougaCount;
-	private int hougaCount;
-	private int count;
+	public final int year;
+	public int yougaCount;
+	public int hougaCount;
+	public int count;
 
 	/**
 	 * データ構築。
