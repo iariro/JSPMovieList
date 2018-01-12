@@ -35,7 +35,7 @@ public class ReleaseYearHistoDataCollection
 		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
 		reader.close();
 
-		ReleaseYearHistoDataCollection histoDataCollection = new ReleaseYearHistoDataCollection();
+		ReleaseYearHistoDataCollection histoDataCollection = new ReleaseYearHistoDataCollection(recordsCollection, startYear, endYear, step);
 		for (int i=0 ; i<recordsCollection.size() ; i++)
 		{
 			histoDataCollection.add(new ReleaseYearHistoData(recordsCollection.get(i), startYear, endYear, step));
@@ -78,6 +78,18 @@ public class ReleaseYearHistoDataCollection
 		writer.println("</body>");
 		writer.println("</html>");
 		writer.close();
+	}
+
+	/**
+	 * データリストを構築
+	 * @param recordsCollection 元データ
+	 */
+	public ReleaseYearHistoDataCollection(RecordCollectionCollection recordsCollection, int startYear, int endYear, int step)
+	{
+		for (RecordCollection records : recordsCollection)
+		{
+			add(new ReleaseYearHistoData(records, startYear, endYear, step));
+		}
 	}
 
 	/**

@@ -24,11 +24,7 @@ public class ChromeTypeDataCollection
 		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
 		reader.close();
 
-		ChromeTypeDataCollection histoDataCollection = new ChromeTypeDataCollection();
-		for (int i=0 ; i<recordsCollection.size() ; i++)
-		{
-			histoDataCollection.add(new ChromeTypeData(recordsCollection.get(i)));
-		}
+		ChromeTypeDataCollection histoDataCollection = new ChromeTypeDataCollection(recordsCollection);
 
 		PrintWriter writer = new PrintWriter(new File("ChromeTypeHisto.html"));
 		writer.println("<html>");
@@ -68,6 +64,18 @@ public class ChromeTypeDataCollection
 		writer.println("</body>");
 		writer.println("</html>");
 		writer.close();
+	}
+
+	/**
+	 * データリストを構築
+	 * @param recordsCollection 元データ
+	 */
+	public ChromeTypeDataCollection(RecordCollectionCollection recordsCollection)
+	{
+		for (RecordCollection records : recordsCollection)
+		{
+			add(new ChromeTypeData(records));
+		}
 	}
 
 	/**

@@ -26,17 +26,8 @@ public class WatchMonthHistoDataCollection
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(args[0])));
 		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
-		WatchMonthHistoDataCollection histoDataCollection = new WatchMonthHistoDataCollection();
-		for (int i=0 ; i<recordsCollection.size() ; i++)
-		{
-			if (i > 0)
-			{
-				System.out.println();
-			}
-
-			histoDataCollection.add(new WatchMonthHistoData(recordsCollection.get(i)));
-		}
 		reader.close();
+		WatchMonthHistoDataCollection histoDataCollection = new WatchMonthHistoDataCollection(recordsCollection);
 
 		PrintWriter writer = new PrintWriter(new File("WatchMonthHisto.html"));
 		writer.println("<html>");
@@ -77,6 +68,18 @@ public class WatchMonthHistoDataCollection
 	}
 
 	/**
+	 * データリストを構築
+	 * @param recordsCollection 元データ
+	 */
+	public WatchMonthHistoDataCollection(RecordCollectionCollection recordsCollection)
+	{
+		for (RecordCollection records : recordsCollection)
+		{
+			add(new WatchMonthHistoData(records));
+		}
+	}
+
+	/**
 	 * Highcharts用の値の配列を生成
 	 * @return Highcharts用の値の配列
 	 */
@@ -85,18 +88,19 @@ public class WatchMonthHistoDataCollection
 		StringBuffer buffer = new StringBuffer();
 		for (int i=0 ; i<size() ; i++)
 		{
+			WatchMonthHistoData data = get(i);
 			if (i > 0)
 			{
 				buffer.append(",");
 			}
-			buffer.append(String.format("{name:'%d年', data:[", get(i).year));
-			for (int j=0 ; j<get(i).size() ; j++)
+			buffer.append(String.format("{name:'%d年', data:[", data.year));
+			for (int j=0 ; j<data.size() ; j++)
 			{
 				if (j > 0)
 				{
 					buffer.append(",");
 				}
-				buffer.append(get(i).get(j));
+				buffer.append(data.get(j));
 			}
 			buffer.append("]}");
 		}

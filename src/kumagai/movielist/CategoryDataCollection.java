@@ -29,11 +29,7 @@ public class CategoryDataCollection
 		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
 		reader.close();
 
-		CategoryDataCollection histoDataCollection = new CategoryDataCollection();
-		for (int i=0 ; i<recordsCollection.size() ; i++)
-		{
-			histoDataCollection.add(new CategoryData(recordsCollection.get(i)));
-		}
+		CategoryDataCollection histoDataCollection = new CategoryDataCollection(recordsCollection);
 
 		PrintWriter writer = new PrintWriter(new File("CategoryDataHisto.html"));
 		writer.println("<html>");
@@ -74,6 +70,18 @@ public class CategoryDataCollection
 		writer.println("</html>");
 		writer.close();
 		System.out.println("done");
+	}
+
+	/**
+	 * データリストを構築
+	 * @param recordsCollection 元データ
+	 */
+	public CategoryDataCollection(RecordCollectionCollection recordsCollection)
+	{
+		for (RecordCollection records : recordsCollection)
+		{
+			add(new CategoryData(records));
+		}
 	}
 
 	/**
