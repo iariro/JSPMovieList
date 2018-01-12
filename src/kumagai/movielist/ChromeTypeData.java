@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.util.HashMap;
 
 /**
@@ -69,7 +68,6 @@ public class ChromeTypeData
 	 * @throws IOException
 	 */
 	public ChromeTypeData(RecordCollection records)
-		throws IOException, ParseException
 	{
 		this.year = records.year;
 

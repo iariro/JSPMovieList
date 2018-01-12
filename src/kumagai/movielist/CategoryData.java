@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 
 /**
  * 映画リストから構築可能なカテゴリー集計データ。
@@ -68,7 +67,6 @@ public class CategoryData
 	 * @param records レコードコレクション
 	 */
 	public CategoryData(RecordCollection records)
-		throws IOException, ParseException
 	{
 		this.year = records.year;
 

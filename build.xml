@@ -1,11 +1,21 @@
 <?xml version="1.0" ?>
-<project>
+<project default="deploy">
 
 	<!-- MovieList build.xml -->
+
+	<!-- web.xml
+	<context-param><param-name>MovieListTitleListPath</param-name><param-value>C:\Users\w81515sr.TOPS\Documents\Private\gol\private\data\movie\titlelist.txt</param-value></context-param>
+	<context-param><param-name>MovieListStartYear</param-name><param-value>1920</param-value></context-param>
+	<context-param><param-name>MovieListYearStep</param-name><param-value>5</param-value></context-param>
+	-->
 
 	<property file="../../../../../build.properties" />
 
 	<property name="GOTAKU_LIB" value="../../../JSP/5Taku/project/bin/" />
+
+	<condition property="have.tomcat">
+		<available file="${TOMCAT_SITE_HOME}" />
+	</condition>
 
 	<target name="zip">
 		<zip
@@ -29,6 +39,40 @@
 			encoding="utf-8"
 			classpath="${ANT_LIB};${KTOOL_LIB};${JUNIT_LIB};${GOTAKU_LIB}">
 		</javadoc>
+	</target>
+
+	<target name="deploy" if="have.tomcat">
+
+		<!-- Struts2 -->
+		<!--<delete dir="${TOMCAT_SITE_HOME}/movielist/" />-->
+		<!--<delete dir="${TOMCAT_SITE_HOME}/WEB-INF/classes/kumagai/movielist/" />-->
+		<copy todir="${TOMCAT_SITE_HOME}/movielist">
+			<fileset dir="html">
+				<include name="**/*.html" />
+				<include name="**/*.jsp" />
+				<include name="**/*.css" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+			</fileset>
+		</copy>
+
+		<copy todir="${TOMCAT_SITE_HOME}/WEB-INF/classes">
+			<fileset dir="bin">
+				<include name="kumagai/movielist/*.class" />
+				<include name="kumagai/movielist/struts2/*.class" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="restart" depends="deploy">
+		<exec executable="sc">
+			<arg line="stop tomcat6" />
+		</exec>
+		<sleep seconds="1" />
+		<exec executable="sc">
+			<arg line="start tomcat6" />
+		</exec>
 	</target>
 
 </project>

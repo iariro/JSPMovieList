@@ -28,11 +28,7 @@ public class AcquisitionTypeDataCollection
 		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
 		reader.close();
 
-		AcquisitionTypeDataCollection histoDataCollection = new AcquisitionTypeDataCollection();
-		for (int i=0 ; i<recordsCollection.size() ; i++)
-		{
-			histoDataCollection.add(new AcquisitionTypeData(recordsCollection.get(i)));
-		}
+		AcquisitionTypeDataCollection histoDataCollection = new AcquisitionTypeDataCollection(recordsCollection);
 
 		PrintWriter writer = new PrintWriter(new File("AcquisitionTypeHisto.html"));
 		writer.println("<html>");
@@ -72,6 +68,18 @@ public class AcquisitionTypeDataCollection
 		writer.println("</body>");
 		writer.println("</html>");
 		writer.close();
+	}
+
+	/**
+	 * データリストを構築
+	 * @param recordsCollection 元データ
+	 */
+	public AcquisitionTypeDataCollection(RecordCollectionCollection recordsCollection)
+	{
+		for (RecordCollection records : recordsCollection)
+		{
+			add(new AcquisitionTypeData(records));
+		}
 	}
 
 	/**

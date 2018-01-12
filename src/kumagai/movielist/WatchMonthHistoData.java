@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import ktool.datetime.DateTime;
@@ -73,7 +72,6 @@ public class WatchMonthHistoData
 	 * @throws IOException
 	 */
 	public WatchMonthHistoData(RecordCollection records)
-		throws IOException, ParseException
 	{
 		this.year = records.year;
 

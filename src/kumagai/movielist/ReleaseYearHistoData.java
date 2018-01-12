@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 
 /**
  * 映画リストから構築可能な年別ヒストグラムデータ。
@@ -85,7 +84,6 @@ public class ReleaseYearHistoData
 	 */
 	public ReleaseYearHistoData
 		(RecordCollection records, int startYear, int endYear, int step)
-		throws IOException, ParseException
 	{
 		this.year = records.year;
 		this.yearHisto = new int [(endYear - startYear) / step];
