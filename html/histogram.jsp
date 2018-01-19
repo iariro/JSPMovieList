@@ -19,19 +19,20 @@
 			<td><div id='categoryDataHisto' style='width: 400px; height: 300px;'></div></td>
 			<td><div id='chromeTypeHisto' style='width: 400px; height: 300px;'></div></td>
 		<tr></table>
-		<script language='JavaScript'>
+		<script>
 		$(document).ready(function()
 		{
 			$('#watchMonthHistoHisto').highcharts(
-					{
-						chart : {type: 'column'},
-						title : {text: '月ごと視聴数'},
-						xAxis : {categories: [ '１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月' ],title: {text: null}},
-						yAxis : { min: 0, title: {text: '件数', align: 'high'}, labels: {overflow: 'justify'}},
-						series : [ <s:property value="watchMonthHistoHistoPoints" /> ],
-						plotOptions : {bar: {dataLabels: {enabled: true}},series: {stacking: 'normal'}},
-						credits : {enabled: false}
-					});
+				{
+					chart : {type: 'column'},
+					title : {text: '月ごと視聴数'},
+					xAxis : {categories: [ '１月','２月','３月','４月','５月','６月','７月','８月','９月','１０月','１１月','１２月' ],title: {text: null}},
+					yAxis : { min: 0, title: {text: '件数', align: 'high'}, labels: {overflow: 'justify'}},
+					series : [ <s:property value="watchMonthHistoHistoPoints" /> ],
+					legend: {reversed:true},
+					plotOptions : {bar: {dataLabels: {enabled: true}},series: {stacking: 'normal'}},
+					credits : {enabled: false}
+				});
 			$('#acquisitionTypeHisto').highcharts(
 				{
 					chart : {type: 'column'},
@@ -69,6 +70,7 @@
 					xAxis : {categories: [ <s:property value="releaseYearHistoXLabel" /> ],title: {text: null}},
 					yAxis : { min: 0, title: {text: '件数', align: 'high'}, labels: {overflow: 'justify'}},
 					series : [ <s:property value="releaseYearHistoPoints" /> ],
+					legend: {reversed:true},
 					plotOptions : {bar: {dataLabels: {enabled: true}},series: {stacking: 'normal'}},
 					credits : {enabled: false}
 				});
