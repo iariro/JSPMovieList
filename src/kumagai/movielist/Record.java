@@ -1,7 +1,8 @@
 package kumagai.movielist;
 
-import java.text.*;
-import ktool.datetime.*;
+import java.text.ParseException;
+
+import ktool.datetime.DateTime;
 
 /**
  * 映画情報１レコード。
@@ -15,6 +16,78 @@ public class Record
 	public final String acquisitionType;
 	public final DateTime watchDate;
 	public final String title;
+
+	/**
+	 * 表示用の洋画／邦画の区別を取得
+	 * @return 表示用の洋画／邦画の区別
+	 */
+	public String getCategory()
+	{
+		return category + "画";
+	}
+
+	/**
+	 * 表示用のカラー／モノクロの区別を取得
+	 * @return 表示用のカラー／モノクロの区別
+	 */
+	public String getChromeType()
+	{
+		if (chromeType.equals("カ"))
+		{
+			return "カラー";
+		}
+		else if (chromeType.equals("モ"))
+		{
+			return "モノクロ";
+		}
+		return chromeType;
+	}
+
+	/**
+	 * 表示用の視聴方法を取得
+	 * @return 表示用の視聴方法
+	 */
+	public String getAcquisitionType()
+	{
+		if (acquisitionType.equals("NR"))
+		{
+			return "ネットレンタル";
+		}
+		else if (acquisitionType.equals("DR"))
+		{
+			return "DVDレンタル";
+		}
+		else if (acquisitionType.equals("DP"))
+		{
+			return "DVD購入";
+		}
+		else if (acquisitionType.equals("DA"))
+		{
+			return "DVDオークション";
+		}
+		else if (acquisitionType.equals("DB"))
+		{
+			return "DVD人から借りて";
+		}
+		else if (acquisitionType.equals("VA"))
+		{
+			return "VHS購入";
+		}
+		else if (acquisitionType.equals("LP"))
+		{
+			return "LD購入";
+		}
+		return acquisitionType;
+	}
+
+	/**
+	 * 表示用の視聴日を取得
+	 * @return 表示用の視聴日
+	 */
+	public String getWatchDate()
+	{
+		return watchDate.toString().substring(5);
+	}
 
 	/**
 	 * 映画情報１レコードを構築する。
