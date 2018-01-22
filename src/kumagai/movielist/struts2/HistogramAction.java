@@ -91,7 +91,7 @@ public class HistogramAction
 		{
 			// 必要なパラメータは指定されていない
 
-			message = "必要なパラメータは指定されている";
+			message = "必要なパラメータは指定されていない";
 		}
 
 		return "error";
