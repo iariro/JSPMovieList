@@ -1,3 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
+<%@ taglib uri="/struts-tags" prefix="s" %>
+
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,6 +17,8 @@
 		<div class=hatena-body>
 		<div class=main>
 		<div class=day>
+
+		<s:property value='listPath' />
 
 		<li><a href="titlelist.action">タイトル一覧表示</a>
 		<li><a href="titlecountgraph.action">総視聴件数グラフ表示</a>
