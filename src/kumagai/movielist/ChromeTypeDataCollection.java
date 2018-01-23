@@ -26,7 +26,7 @@ public class ChromeTypeDataCollection
 
 		ChromeTypeDataCollection histoDataCollection = new ChromeTypeDataCollection(recordsCollection);
 
-		PrintWriter writer = new PrintWriter(new File("ChromeTypeHisto.html"));
+		PrintWriter writer = new PrintWriter(new File("../ChromeTypeHisto.html"));
 		writer.println("<html>");
 		writer.println("<head>");
 		writer.println("<meta charset='UTF-8' />");

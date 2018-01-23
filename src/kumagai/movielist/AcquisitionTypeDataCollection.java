@@ -30,7 +30,7 @@ public class AcquisitionTypeDataCollection
 
 		AcquisitionTypeDataCollection histoDataCollection = new AcquisitionTypeDataCollection(recordsCollection);
 
-		PrintWriter writer = new PrintWriter(new File("AcquisitionTypeHisto.html"));
+		PrintWriter writer = new PrintWriter(new File("../AcquisitionTypeHisto.html"));
 		writer.println("<html>");
 		writer.println("<head>");
 		writer.println("<meta charset='UTF-8' />");

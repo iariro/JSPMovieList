@@ -40,7 +40,7 @@ public class ReleaseYearHistoDataCollection
 		{
 			histoDataCollection.add(new ReleaseYearHistoData(recordsCollection.get(i), startYear, endYear, step));
 		}
-		PrintWriter writer = new PrintWriter(new File("ReleaseYearHisto.html"));
+		PrintWriter writer = new PrintWriter(new File("../ReleaseYearHisto.html"));
 		writer.println("<html>");
 		writer.println("<head>");
 		writer.println("<meta charset='UTF-8' />");

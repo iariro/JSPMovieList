@@ -31,7 +31,7 @@ public class CategoryDataCollection
 
 		CategoryDataCollection histoDataCollection = new CategoryDataCollection(recordsCollection);
 
-		PrintWriter writer = new PrintWriter(new File("CategoryDataHisto.html"));
+		PrintWriter writer = new PrintWriter(new File("../CategoryDataHisto.html"));
 		writer.println("<html>");
 		writer.println("<head>");
 		writer.println("<meta charset='UTF-8' />");

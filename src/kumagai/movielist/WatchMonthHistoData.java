@@ -75,7 +75,6 @@ public class WatchMonthHistoData
 	{
 		this.year = records.year;
 
-		int monthdiff = 0;
 		DateTime today = new DateTime();
 
 		if (today.getYear() == records.year)
@@ -91,27 +90,27 @@ public class WatchMonthHistoData
 			this.endDate = new DateTime(records.year, 12, 31, 0, 0, 0);
 		}
 
-		DateTime day = new DateTime(this.endDate);
-
-		for (Record record : records)
+		for (int i=0 ; i<12 ; i++)
 		{
-			while (day.getYear() != record.watchDate.getYear() ||
-				day.getMonth() != record.watchDate.getMonth())
+			add(0);
+
+			boolean find = false;
+			for (Record record : records)
 			{
-				// 先月を取得。
-				day.setDay(1);
-				day.add(new TimeSpan(-24, 0, 0));
-				monthdiff++;
+				if (record.watchDate.getMonth() == (i + 1))
+				{
+					// 対象の月である
+
+					set(i, get(i) + 1);
+					find = true;
+				}
+				else if (find)
+				{
+					// 対象の月を過ぎた
+
+					break;
+				}
 			}
-
-			while (monthdiff >= size())
-			{
-				add(0);
-			}
-
-			set(monthdiff, get(monthdiff) + 1);
-
-			count++;
 		}
 	}
 

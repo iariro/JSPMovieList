@@ -29,7 +29,7 @@ public class WatchMonthHistoDataCollection
 		reader.close();
 		WatchMonthHistoDataCollection histoDataCollection = new WatchMonthHistoDataCollection(recordsCollection);
 
-		PrintWriter writer = new PrintWriter(new File("WatchMonthHisto.html"));
+		PrintWriter writer = new PrintWriter(new File("../WatchMonthHisto.html"));
 		writer.println("<html>");
 		writer.println("<head>");
 		writer.println("<meta charset='UTF-8' />");
