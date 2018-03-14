@@ -21,10 +21,10 @@
 			<s:iterator value="recordsCollection">
 				<h2><s:property value='year' />年</h2>
 				<table>
-					<tr><th>洋／邦</th><th>カラー／白黒</th><th>視聴方法</th><th>鑑賞日</th><th>タイトル</th></tr>
+					<tr><th>年</th><th>洋／邦</th><th>カラー／白黒</th><th>視聴方法</th><th>鑑賞日</th><th>タイトル</th></tr>
 					<s:iterator>
 						<tr>
-							<td><s:property value='category' /></td>
+							<td><s:property value='year' /></td>
 							<td><s:property value='chromeType' /></td>
 							<td><s:property value='acquisitionType' /></td>
 							<td><s:property value='watchDate' /></td>
