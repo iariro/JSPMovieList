@@ -25,6 +25,7 @@
 					<s:iterator>
 						<tr>
 							<td><s:property value='year' /></td>
+							<td><s:property value='category' /></td>
 							<td><s:property value='chromeType' /></td>
 							<td><s:property value='acquisitionType' /></td>
 							<td><s:property value='watchDate' /></td>
