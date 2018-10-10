@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import ktool.datetime.DateTime;
 
@@ -27,7 +29,17 @@ public class RecordCollectionCollection
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(args[0]), "sjis"));
 		RecordCollectionCollection recordsCollection = new RecordCollectionCollection(reader);
 		reader.close();
-		System.out.println(recordsCollection.generateTitleCountPoints());
+		//System.out.println(recordsCollection.generateTitleCountPoints());
+		LinkedHashMap<String,ArrayList<Boolean>> yearMonthTable = recordsCollection.getYearMonthTable(1920, 2015, 5);
+		for (Entry<String, ArrayList<Boolean>> yearMonth : yearMonthTable.entrySet())
+		{
+			System.out.printf("%s :", yearMonth.getKey());
+			for (boolean watch : yearMonth.getValue())
+			{
+				System.out.printf(" %s", watch ? "o" : "x");
+			}
+			System.out.println();
+		}
 	}
 
 	/**
@@ -157,5 +169,59 @@ public class RecordCollectionCollection
 			buffer.append("]}\n");
 		}
 		return buffer.toString();
+	}
+
+	/**
+	 * 公開年と視聴年月のマトリクスを出力
+	 * @param startReleaseYear 公開年開始年
+	 * @param endReleaseYear 公開年終端年
+	 * @param stepYear 公開年のステップ年
+	 * @return 公開年と視聴年月のマトリクス
+	 */
+	public LinkedHashMap<String, ArrayList<Boolean>> getYearMonthTable(int startReleaseYear, int endReleaseYear, int stepYear)
+	{
+		DateTime firstWatch = null;
+		for (RecordCollection collection : this)
+		{
+			for (Record record : collection)
+			{
+				if ((firstWatch == null) || (firstWatch.compareTo(record.watchDate) > 0))
+				{
+					firstWatch = record.watchDate;
+				}
+			}
+		}
+
+		DateTime month = new DateTime(firstWatch.getYear(), firstWatch.getMonth(), 1, 0, 0, 0);
+		DateTime now = new DateTime();
+		LinkedHashMap<String, ArrayList<Boolean>> map = new LinkedHashMap<>();
+		for ( ; month.compareTo(now) < 0 ; month.addMonth(1))
+		{
+			ArrayList<Boolean> row = new ArrayList<Boolean>();
+			for (int year=startReleaseYear ; year<=endReleaseYear ; year+=stepYear)
+			{
+				row.add(false);
+			}
+			map.put(String.format("%04d%02d", month.getYear(), month.getMonth()), row);
+		}
+
+		for (RecordCollection collection : this)
+		{
+			for (Record record : collection)
+			{
+				String key = String.format("%04d%02d", record.watchDate.getYear(), record.watchDate.getMonth());
+				if (map.containsKey(key))
+				{
+					ArrayList<Boolean> row = map.get(key);
+					int index = (record.year - startReleaseYear) / stepYear;
+					row.set(index, true);
+				}
+				else
+				{
+					System.out.println(record.title);
+				}
+			}
+		}
+		return map;
 	}
 }
